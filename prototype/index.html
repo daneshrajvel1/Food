@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FoodApp - Mobile Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Mobile Frame Container -->
+    <div class="device-frame">
+        <div class="device-notch"></div>
+        
+        <!-- App Container -->
+        <div class="app-container" id="app">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="icon-btn" id="locationBtn" aria-label="Change location">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                </button>
+                <div class="brand-logo">FoodApp</div>
+                <div class="top-bar-actions">
+                    <button class="icon-btn" id="searchBtn" aria-label="Search">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                    <button class="avatar-btn" id="avatarBtn" aria-label="Profile">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23FF6B6B'/%3E%3Ctext x='50' y='50' text-anchor='middle' dy='.3em' fill='white' font-size='40' font-family='system-ui'%3EU%3C/text%3E%3C/svg%3E" alt="User">
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="main-content" id="mainContent">
+                <!-- Food Item Card -->
+                <div class="food-card-container">
+                    <!-- Navigation Overlays -->
+                    <button class="nav-overlay nav-overlay-left" id="prevBtn" aria-label="Previous item"></button>
+                    <button class="nav-overlay nav-overlay-right" id="nextBtn" aria-label="Next item"></button>
+                    
+                    <div class="food-card" id="foodCard">
+                        <div class="food-image-container">
+                            <img class="food-image" id="foodImage" src="" alt="Food item">
+                            <button class="favorite-btn" id="favoriteBtn" aria-label="Add to favorites">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="food-info">
+                            <h2 class="food-name" id="foodName">Loading...</h2>
+                            <p class="food-description" id="foodDescription">Please wait...</p>
+                            <div class="price-badge" id="priceBadge">$0.00</div>
+                            
+                            <div class="card-controls">
+                                <div class="quantity-selector">
+                                    <button class="quantity-btn" id="decreaseBtn" aria-label="Decrease quantity">−</button>
+                                    <span class="quantity-value" id="quantityValue">1</span>
+                                    <button class="quantity-btn" id="increaseBtn" aria-label="Increase quantity">+</button>
+                                </div>
+                                <button class="add-to-cart-btn" id="addToCartBtn">
+                                    <span>Add to Cart</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Floating Cart Button -->
+            <button class="floating-cart-btn" id="cartBtn" aria-label="Open cart">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+
+
+
+            <!-- Toast Notification -->
+            <div class="toast" id="toast"></div>
+
+            <!-- Bottom Sheet: Cart -->
+            <div class="bottom-sheet" id="cartSheet">
+                <div class="bottom-sheet-backdrop"></div>
+                <div class="bottom-sheet-content">
+                    <div class="bottom-sheet-header">
+                        <div class="bottom-sheet-handle"></div>
+                        <h3>Your Cart</h3>
+                        <button class="close-btn" id="closeCartBtn" aria-label="Close">×</button>
+                    </div>
+                    <div class="bottom-sheet-body" id="cartItems">
+                        <div class="empty-cart">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <p>Your cart is empty</p>
+                        </div>
+                    </div>
+                    <div class="bottom-sheet-footer">
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Delivery</span>
+                                <span id="delivery">$2.99</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="total">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Sheet: Checkout -->
+            <div class="bottom-sheet" id="checkoutSheet">
+                <div class="bottom-sheet-backdrop"></div>
+                <div class="bottom-sheet-content checkout-content">
+                    <div class="bottom-sheet-header">
+                        <button class="back-btn" id="backFromCheckout" aria-label="Back">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <h3>Checkout</h3>
+                        <div style="width: 36px;"></div>
+                    </div>
+                    <div class="bottom-sheet-body checkout-body">
+                        <!-- Delivery Address -->
+                        <section class="checkout-section">
+                            <h4>Delivery Address</h4>
+                            <div class="address-card selected" data-address="home">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                </svg>
+                                <div class="address-info">
+                                    <strong>Home</strong>
+                                    <p>123 Main Street, Apt 4B, New York, NY 10001</p>
+                                </div>
+                                <div class="radio-check"></div>
+                            </div>
+                            <div class="address-card" data-address="work">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                <div class="address-info">
+                                    <strong>Work</strong>
+                                    <p>456 Business Ave, Suite 200, New York, NY 10002</p>
+                                </div>
+                                <div class="radio-check"></div>
+                            </div>
+                            <button class="link-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add New Address
+                            </button>
+                        </section>
+
+                        <!-- Delivery Time -->
+                        <section class="checkout-section">
+                            <h4>Delivery Time</h4>
+                            <div class="chip-group">
+                                <button class="chip active" data-time="asap">ASAP (25-35 min)</button>
+                                <button class="chip" data-time="schedule">Schedule Later</button>
+                            </div>
+                        </section>
+
+                        <!-- Payment Method -->
+                        <section class="checkout-section">
+                            <h4>Payment Method</h4>
+                            <div class="payment-card selected" data-payment="card">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                <div class="payment-info">
+                                    <strong>Credit Card</strong>
+                                    <p>•••• •••• •••• 4242</p>
+                                </div>
+                                <div class="radio-check"></div>
+                            </div>
+                            <div class="payment-card" data-payment="upi">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                                <div class="payment-info">
+                                    <strong>UPI</strong>
+                                    <p>user@upi</p>
+                                </div>
+                                <div class="radio-check"></div>
+                            </div>
+                            <div class="payment-card" data-payment="wallet">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
+                                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
+                                    <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
+                                </svg>
+                                <div class="payment-info">
+                                    <strong>Wallet</strong>
+                                    <p>Balance: $125.00</p>
+                                </div>
+                                <div class="radio-check"></div>
+                            </div>
+                            <button class="link-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add Payment Method
+                            </button>
+                        </section>
+
+                        <!-- Coupon -->
+                        <section class="checkout-section">
+                            <h4>Apply Coupon</h4>
+                            <div class="coupon-input">
+                                <input type="text" placeholder="Enter coupon code" id="couponInput">
+                                <button class="apply-btn" id="applyCouponBtn">Apply</button>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="bottom-sheet-footer">
+                        <div class="cart-summary">
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="checkoutTotal">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="checkout-btn" id="placeOrderBtn">Place Order</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Order Tracking -->
+            <div class="modal" id="orderTrackingModal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Order Tracking</h3>
+                        <button class="close-btn" id="closeTrackingBtn" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="order-success">
+                            <div class="success-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                            </div>
+                            <h4>Order Placed Successfully!</h4>
+                            <p class="order-number">Order #<span id="orderNumber">12345</span></p>
+                        </div>
+
+                        <div class="order-timeline">
+                            <div class="timeline-item completed">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <strong>Order Confirmed</strong>
+                                    <span class="timeline-time">Just now</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item active">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <strong>Preparing Food</strong>
+                                    <span class="timeline-time">In progress...</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <strong>Out for Delivery</strong>
+                                    <span class="timeline-time">ETA 25 min</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <strong>Delivered</strong>
+                                    <span class="timeline-time"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="courier-info">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234ECDC4'/%3E%3Ctext x='50' y='50' text-anchor='middle' dy='.3em' fill='white' font-size='40' font-family='system-ui'%3ED%3C/text%3E%3C/svg%3E" alt="Courier" class="courier-avatar">
+                            <div class="courier-details">
+                                <strong>David Martinez</strong>
+                                <span>Delivery Partner</span>
+                            </div>
+                            <button class="icon-btn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="secondary-btn" id="closeTrackingBtnAlt">Track on Map</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Location Picker -->
+            <div class="modal" id="locationModal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Select Location</h3>
+                        <button class="close-btn" id="closeLocationBtn" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <button class="location-option" id="useCurrentLocation">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="10" r="3"></circle>
+                                <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+                            </svg>
+                            <span>Use Current Location</span>
+                        </button>
+                        <div class="divider">OR</div>
+                        <input type="text" class="search-input" placeholder="Search for area, street name...">
+                        <div class="saved-locations">
+                            <h5>Saved Addresses</h5>
+                            <button class="location-option">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                </svg>
+                                <div>
+                                    <strong>Home</strong>
+                                    <p>123 Main Street, New York</p>
+                                </div>
+                            </button>
+                            <button class="location-option">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                <div>
+                                    <strong>Work</strong>
+                                    <p>456 Business Ave, New York</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Profile -->
+            <div class="modal" id="profileModal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Profile</h3>
+                        <button class="close-btn" id="closeProfileBtn" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="profile-header">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23FF6B6B'/%3E%3Ctext x='50' y='50' text-anchor='middle' dy='.3em' fill='white' font-size='40' font-family='system-ui'%3EU%3C/text%3E%3C/svg%3E" alt="User" class="profile-avatar">
+                            <h4>John Doe</h4>
+                            <p>john.doe@email.com</p>
+                        </div>
+                        <div class="profile-menu">
+                            <button class="profile-menu-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <span>Edit Profile</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="profile-menu-item" id="orderHistoryBtn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                </svg>
+                                <span>Order History</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="profile-menu-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span>Manage Addresses</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="profile-menu-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                                <span>Payment Methods</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="profile-menu-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span>Saved Items</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="profile-menu-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                                <span>Settings</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="profile-menu-item logout">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                <span>Logout</span>
+                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Search & Filters -->
+            <div class="modal" id="searchModal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-content search-modal-content">
+                    <div class="modal-header">
+                        <button class="back-btn" id="backFromSearch" aria-label="Back">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <input type="text" class="search-header-input" placeholder="Search for food..." id="searchInput">
+                    </div>
+                    <div class="modal-body">
+                        <!-- Filters -->
+                        <div class="filters-section">
+                            <h5>Filters</h5>
+                            <div class="filter-group">
+                                <label class="filter-label">Food Type</label>
+                                <div class="chip-group">
+                                    <button class="chip filter-chip active" data-filter="all">All</button>
+                                    <button class="chip filter-chip" data-filter="veg">
+                                        <span class="veg-icon">🌱</span> Veg
+                                    </button>
+                                    <button class="chip filter-chip" data-filter="non-veg">
+                                        <span class="non-veg-icon">🍖</span> Non-Veg
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label class="filter-label">Price Range</label>
+                                <div class="chip-group">
+                                    <button class="chip filter-chip active">All</button>
+                                    <button class="chip filter-chip">$ (0-10)</button>
+                                    <button class="chip filter-chip">$$ (10-20)</button>
+                                    <button class="chip filter-chip">$$$ (20+)</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label">Rating</label>
+                                <div class="chip-group">
+                                    <button class="chip filter-chip active">All</button>
+                                    <button class="chip filter-chip">⭐ 4.5+</button>
+                                    <button class="chip filter-chip">⭐ 4.0+</button>
+                                    <button class="chip filter-chip">⭐ 3.5+</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label">Delivery Time</label>
+                                <div class="chip-group">
+                                    <button class="chip filter-chip active">All</button>
+                                    <button class="chip filter-chip">⚡ Fast (< 30 min)</button>
+                                    <button class="chip filter-chip">🕐 Standard (30-45 min)</button>
+                                </div>
+                            </div>
+
+                            <div class="filter-group">
+                                <label class="filter-label">Sort By</label>
+                                <div class="chip-group">
+                                    <button class="chip filter-chip active">Relevance</button>
+                                    <button class="chip filter-chip">Distance</button>
+                                    <button class="chip filter-chip">Rating</button>
+                                    <button class="chip filter-chip">Price: Low to High</button>
+                                    <button class="chip filter-chip">Price: High to Low</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
